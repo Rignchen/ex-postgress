@@ -40,3 +40,9 @@ if (!$user)
 // Check if user isn't trying to remove themselves
 if ($user['id'] == $decoded->id)
     output(['error' => 'You cannot remove yourself'], 400);
+
+// Remove the user
+$stmt = $pdo->prepare("DELETE FROM api.users WHERE username = :username");
+$stmt->execute(['username' => $data['username']]);
+
+output(['message' => 'User removed']);
