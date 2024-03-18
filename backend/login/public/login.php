@@ -23,3 +23,13 @@ $dotenv->load(__DIR__ . '/../.env');
 $dns = "pgsql:host=" . $_ENV['DB_HOST'] . ";port=" . $_ENV['DB_PORT'] . ";dbname=" . $_ENV['DB_NAME'];
 $pdo = new PDO($dns, $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
 
+// Check if the password is correct
+$stmt = $pdo->prepare("SELECT * FROM api.users WHERE username = :username");
+$stmt->execute(['username' => $data['username']]);
+$user = $stmt->fetch();
+
+if (!$user || !password_verify($data['password'], $user['password'])) {
+	http_response_code(401);
+	echo json_encode(['error' => 'Invalid username or password']);
+	exit;
+}

@@ -1,6 +1,10 @@
 {
 	"name": "rignchen/login_php",
 	"type": "project",
+	"require": {
+		"symfony/dotenv": "^7.0",
+		"ext-pdo": "*"
+	},
 	"require-dev": {
 		"symfony/var-dumper": "^7.0"
 	},
