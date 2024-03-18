@@ -27,3 +27,14 @@ catch (SignatureInvalidException|DomainException|UnexpectedValueException $e) {
 }
 if (!isset($decoded->role) || $decoded->role !== 'web_user')
 	output(['error' => 'Forbidden'], 403);
+
+// Check if data has been sent
+$data = match ($_SERVER['REQUEST_METHOD']) {
+	'GET' => $_GET,
+	'POST' => $_POST,
+	default => output(['error' => 'Unsupported method'], 405),
+};
+
+if (!isset($data['username']) || !isset($data['password']))
+	output(['error' => 'Username and password are required'], 400);
+
