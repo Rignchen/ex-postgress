@@ -25,5 +25,5 @@ catch (SignatureInvalidException|DomainException|UnexpectedValueException $e) {
 		default => output(['error' => 'Invalid authentication token'], 401),
 	};
 }
-if ($decoded->role !== 'web_user')
+if (!isset($decoded->role) || $decoded->role !== 'web_user')
 	output(['error' => 'Forbidden'], 403);
