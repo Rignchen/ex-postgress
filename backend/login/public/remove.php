@@ -24,3 +24,13 @@ $data = match ($_SERVER['REQUEST_METHOD']) {
 
 if (!isset($data['username']))
     output(['error' => 'The username of the user to remove is required'], 400);
+
+// Connect to the database
+$dns = "pgsql:host=" . $_ENV['DB_HOST'] . ";port=" . $_ENV['DB_PORT'] . ";dbname=" . $_ENV['DB_NAME'];
+$pdo = new PDO($dns, $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+
+// Check if user isn't trying to remove themselves
+$stmt = $pdo->prepare("SELECT * FROM api.users WHERE username = :username");
+$stmt->execute(['username' => $data['username']]);
+$user = $stmt->fetch();
+
