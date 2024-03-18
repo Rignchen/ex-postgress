@@ -2,6 +2,7 @@
 	"name": "rignchen/login_php",
 	"type": "project",
 	"require": {
+		"firebase/php-jwt": "^6.10",
 		"symfony/dotenv": "^7.0",
 		"ext-pdo": "*"
 	},

@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Dotenv;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 $data = match ($_SERVER['REQUEST_METHOD']) {
 	'GET' => $_GET,
@@ -33,3 +35,13 @@ if (!$user || !password_verify($data['password'], $user['password'])) {
 	echo json_encode(['error' => 'Invalid username or password']);
 	exit;
 }
+
+// Create a token
+$payload = [
+	"role" => "web_user",
+	"exp" => time() + 3600,
+	"id" => $user['id']
+];
+$jwt = JWT::encode($payload, $_ENV['JWT_SECRET'], 'HS256');
+
+echo json_encode(['token' => $jwt]);
