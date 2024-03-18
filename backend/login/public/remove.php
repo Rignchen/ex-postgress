@@ -21,3 +21,6 @@ $data = match ($_SERVER['REQUEST_METHOD']) {
     'POST' => $_POST,
     default => output(['error' => 'Unsupported method'], 405),
 };
+
+if (!isset($data['username']))
+    output(['error' => 'The username of the user to remove is required'], 400);
