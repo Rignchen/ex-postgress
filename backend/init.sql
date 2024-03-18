@@ -52,3 +52,6 @@ create table if not exists api.users (
 	username character varying(50) NOT NULL UNIQUE,
 	password character varying(60) NOT NULL
 );
+
+-- add a first user that will be able to create other users (password is "admin123")
+insert into api.users(username, password) values ('admin', $2y$10$LOozuzhwHSRPDM3u1dBh6eufzNrHFHv8pn3dMPSS0j5CY3tcoBibG)
